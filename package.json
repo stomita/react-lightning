@@ -1,6 +1,6 @@
 {
   "name": "react-lightning-renderer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "lib/index.js",
   "module": "module/index.js",
   "author": "Shinichi Tomita <shinichi.tomita@gmail.com>",
@@ -14,7 +14,7 @@
     "ui.js"
   ],
   "scripts": {
-    "prepare": "npm run build",
+    "prepublish": "npm run build",
     "build": "npm-run-all build:es5 build:module",
     "build:es5": "babel src -d lib",
     "build:module": "BABEL_ENV=module babel src -d module",
