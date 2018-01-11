@@ -1,5 +1,5 @@
 {
-  "name": "react-lightning",
+  "name": "react-lightning-renderer",
   "version": "0.1.0",
   "main": "lib/index.js",
   "module": "module/index.js",
