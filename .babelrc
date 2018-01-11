@@ -1,0 +1,29 @@
+{
+  "env": {
+    "development": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "ie": 11,
+          },
+          "useBuiltIns": "usage"
+        }],
+        "flow",
+        "react"
+      ]
+    },
+    "module": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "chrome": 60,
+          },
+          "useBuiltIns": "usage",
+          "modules": false
+        }],
+        "flow",
+        "react"
+      ]
+    },
+  }
+}

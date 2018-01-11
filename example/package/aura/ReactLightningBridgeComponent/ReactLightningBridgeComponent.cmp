@@ -1,0 +1,9 @@
+<aura:component controller="ReactLightningBridgeController"
+	implements="flexipage:availableForAllPageTypes"
+	access="global"
+>
+	<ltng:require scripts="{!$Resource.ReactLightningBridge}"
+		afterScriptsLoaded="{!c.doInit}"
+	/>
+	{!v.body}
+</aura:component>
