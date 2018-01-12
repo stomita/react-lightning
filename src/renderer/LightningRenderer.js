@@ -383,6 +383,7 @@ const LightningRenderer = Reconciler({
     commitTextUpdate(textInstance, oldText, newText) {
       // console.log('mutation#commitTextUpdate()')
       textInstance.props.value = newText;
+      updateComponentProps(textInstance, [{ prop: 'value', value: newText }]);
     },
   }
 });
