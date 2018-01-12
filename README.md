@@ -14,7 +14,7 @@ $ npm install react-lightning-renderer
 
 ```javascript
 import React from 'react';
-import { Button, render, handleEvent } from '../../src';
+import { Button, render, handleEvent } from 'react-lightning-renderer';
 
 class CounterApp extends React.Component {
   constructor() {
