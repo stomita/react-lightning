@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>ReactLightningBridgeComponent</members>
+        <members>ReactLightningRendererDemoSimple</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>ReactLightningBridge</members>
+        <members>ReactLightningRendererDemo</members>
         <name>StaticResource</name>
     </types>
     <version>41.0</version>

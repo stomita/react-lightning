@@ -2,8 +2,8 @@ module.exports = {
   entry: __dirname + '/app/index.js',
   output: {
     path: __dirname + '/package/staticresources',
-    filename: 'ReactLightningBridge.resource',
-    library: 'ReactLightningBridge',
+    filename: 'ReactLightningRendererDemo.resource',
+    library: 'ReactLightningRendererDemo',
     libraryTarget: 'umd',
   },
   module: {
