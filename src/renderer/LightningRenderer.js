@@ -28,12 +28,11 @@ export type AuraEvent = {
 };
 
 export type Props = Object;
-export type TextInstance = string;
 export type Instance = {
   id: string,
   type: string,
   props: Props,
-  children: Array<Instance | TextInstance>,
+  children: Array<Instance>,
   container: Container;
   cmp?: ?AuraComponent,
 };
@@ -90,10 +89,8 @@ function unregisterComponentRoot(
   });
 }
 
-function destroyInstance(
-  instance: Instance | TextInstance,
-) {
-  if (typeof instance !== 'string' && instance.cmp) {
+function destroyInstance(instance: Instance) {
+  if (instance.cmp) {
     const cmp = instance.cmp;
     instance.cmp = null;
     instance.container.auraRun(() => cmp.destroy());
@@ -123,10 +120,7 @@ async function syncComponentTree(inst: Instance) {
 
 function _reflectComponentTree(inst: Instance): AuraComponent {
   const body = inst.children.map((cinst) => {
-    if (typeof cinst !== 'string') {
-      return _reflectComponentTree(cinst);
-    }
-    return cinst;
+    return _reflectComponentTree(cinst);
   });
   const cmp = inst.cmp;
   if (!cmp) { throw new Error('cannot be reached here'); }
@@ -157,11 +151,23 @@ function updateComponentProps(inst, updatePayload) {
   auraRun(() => { _updateComponentProps(inst, updatePayload) });
 }
 
+function convertToHtmlAttrs(props: Object) {
+  return Object.keys(props).reduce((attrs, prop) => {
+    const value = props[prop];
+    return (
+      prop === 'className' ?
+        Object.assign({}, attrs, { "class": value }) :
+      prop === 'htmlFor' ?
+        Object.assign({}, attrs, { "for": value }) :
+        Object.assign({}, attrs, { [prop]: value })
+    );
+  }, {});
+}
+
 function convertToComponentDefs(inst: Instance): [string, Object] {
   const container = inst.container || inst;
   const containerCmp = container.cmp;
   if (!containerCmp) { throw new Error('no container cmp defined'); }
-  console.log('inst.type=>', inst.type);
   const cmpProps = Object.keys(inst.props).reduce((props, prop) => {
     if (prop === 'children') { return props; }
     let value = inst.props[prop];
@@ -170,24 +176,30 @@ function convertToComponentDefs(inst: Instance): [string, Object] {
     }
     return Object.assign({}, props, { [prop]: value });
   }, {});
-  if (inst.type.indexOf('lightning:') === 0) {
+  if (/^(lightning|ui|force|forceChatter):/.test(inst.type)) {
     return [
       inst.type,
       Object.assign({}, cmpProps, { 'aura:id': inst.id }),
     ];
   }
+  if (inst.type === 'TEXT') {
+    return [
+      'aura:text',
+      { value: inst.props.value }
+    ];
+  }
   return [
     'aura:html',
-    Object.assign({}, cmpProps, {
-      tag: inst.type,
+    {
       'aura:id': inst.id,
-    }),
+      tag: inst.type,
+      HTMLAttributes: convertToHtmlAttrs(cmpProps),
+    },
   ];
 }
 
 
-function flattenToInstanceArray(inst: Instance | TextInstance): Array<Instance> {
-  if (typeof inst === 'string') { return []; }
+function flattenToInstanceArray(inst: Instance): Array<Instance> {
   return [
     inst,
     ...inst.children
@@ -218,7 +230,7 @@ function diffProps(oldProps: Object, newProps: Object) {
 const LightningRenderer = Reconciler({
   appendInitialChild(
     parentInstance: Instance,
-    child: TextInstance | Instance,
+    child: Instance,
   ): void {
     parentInstance.children.push(child);
   },
@@ -236,7 +248,10 @@ const LightningRenderer = Reconciler({
 
   createTextInstance(text, rootContainerInstance, internalInstanceHandle) {
     // console.log('#createTextInstance()', text);
-    return text;
+    const id = randId();
+    const type = 'TEXT';
+    const props = { value: text };
+    return { id, type, props, children: [], container: rootContainerInstance };
   },
 
   finalizeInitialChildren(element, type, props) {
@@ -297,7 +312,7 @@ const LightningRenderer = Reconciler({
   mutation: {
     appendChild(
       parentInstance: Instance,
-      child: Instance | TextInstance,
+      child: Instance,
     ): void {
       // console.log('mutation#appendChild()')
       parentInstance.children.push(child);
@@ -315,7 +330,7 @@ const LightningRenderer = Reconciler({
 
     removeChild(
       parentInstance: Instance,
-      child: Instance | TextInstance,
+      child: Instance,
     ): void {
       // console.log('mutation#removeChild()')
       const index = parentInstance.children.indexOf(child);
@@ -330,7 +345,7 @@ const LightningRenderer = Reconciler({
 
     removeChildFromContainer(
       container: Container,
-      child: Instance | TextInstance,
+      child: Instance,
     ): void {
       // console.log('mutation#removeChildFromContainer()')
       if (container.root === child) {
@@ -342,8 +357,8 @@ const LightningRenderer = Reconciler({
 
     insertBefore(
       parentInstance: Instance,
-      child: Instance | TextInstance,
-      beforeChild: Instance | TextInstance,
+      child: Instance,
+      beforeChild: Instance,
     ): void {
       // console.log('mutation#insertBefore()')
       const index = parentInstance.children.indexOf(beforeChild);
@@ -367,7 +382,7 @@ const LightningRenderer = Reconciler({
 
     commitTextUpdate(textInstance, oldText, newText) {
       // console.log('mutation#commitTextUpdate()')
-      textInstance.children = newText;
+      textInstance.props.value = newText;
     },
   }
 });
