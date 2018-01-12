@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedText, FormattedNumber, Button, render, handleEvent } from '../../src';
+import { Button, render, handleEvent } from '../../src';
 
 class App extends React.Component {
   constructor() {
@@ -11,7 +11,7 @@ class App extends React.Component {
     return (
       <div>
         <p>
-          Count: <FormattedNumber value={ count } />
+          Count: { count }
         </p>
         <Button
           iconName="utility:add"
