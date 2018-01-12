@@ -66,7 +66,7 @@ export { init, handleEvent };
 	doInit: function(cmp, event, helper) {
 		window.MyComponentApp.init(cmp);
 	},
-	handleEvent: function(cmp, event) { // the controller name always must be `handleEvent`
+	handleEvent: function(cmp, event) { // the controller method name always must be `handleEvent`
 		window.MyComponentApp.handleEvent(cmp, event);
 	}
 })
