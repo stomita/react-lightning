@@ -21,7 +21,6 @@
     "module": {
       "presets": [
         ["env", {
-          "targets": { "node": 6 },
           "useBuiltIns": "usage",
           "modules": false
         }],
