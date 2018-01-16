@@ -1,0 +1,8 @@
+<aura:component implements="flexipage:availableForAllPageTypes"
+	access="global"
+>
+	<ltng:require scripts="{!$Resource.ReactLightningRendererDemo}"
+		afterScriptsLoaded="{!c.doInit}"
+	/>
+	{!v.body}
+</aura:component>
