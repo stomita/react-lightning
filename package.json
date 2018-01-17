@@ -42,6 +42,7 @@
     "react": "^16.2.0",
     "react-devtools": "^3.0.0",
     "react-redux": "^5.0.6",
+    "recompose": "^0.26.0",
     "redux": "^3.7.2",
     "webpack": "^3.10.0"
   },

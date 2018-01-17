@@ -1,41 +1,51 @@
 /* @flow */
 import React from 'react';
-import { Input, Button } from '../../../../src';
-import { connect, Provider } from 'react-redux';
-import type { State } from '../types';
+import { compose, withStateHandlers } from 'recompose';
+import {
+  Layout, LayoutItem,
+  VerticalNavigation,VerticalNavigationSection, VerticalNavigationItem,
+} from '../../../../src';
+import ButtonExample from './ButtonExample';
+import LayoutExample from './LayoutExample';
 
-const enhancer = connect(
-  (state: State) => state,
+const EXAMPLES = [
+  { label: 'Button', name: 'button' },
+  { label: 'Layout', name: 'layout' },
+];
+
+const enhancer = compose(
+  withStateHandlers({
+    selected: 'button',
+  }, {
+    onChangeSelected: ({ selected }) => (e) => ({
+      selected: e.getParam('name'),
+    }),
+  }),
 );
 
-const CatalogApp = enhancer(({ values, dispatch }) => (
-  <div>
-    {
-      values.map(({ id, value }, index) => (
-        <div key={ id }>
-          <Button variant="base" iconName="utility:ban"
-            onclick={ () => {
-              dispatch({ type: 'REMOVE_INPUT', payload: { index } });
-            } }
-          />
-          <Input
-            label={ `Input Text: ${value}` }
-            value={ value }
-            onchange={ (e) => {
-              const value = e.getSource().get('v.value');
-              dispatch({ type: 'CHANGE_VALUE', payload: { index, value } });
-            } }
-          />
-        </div>
-      ))
-    }
-    <Button
-      label="Add Entry"
-      onclick={ () => {
-        dispatch({ type: 'ADD_INPUT', payload: { value: '' } });
-      } }
-    />
-  </div>
-));
+const showOn = (bool: boolean) => bool ? 'slds-show' : 'slds-hide';
+
+const CatalogApp = enhancer((props) => {
+  const { selected, onChangeSelected } = props;
+  return (
+    <Layout horizontalAlign="spread">
+      <LayoutItem size="3" padding="around-small">
+        <VerticalNavigation selectedItem={ selected } onselect={ onChangeSelected }>
+          <VerticalNavigationSection label="Examples">
+            {
+              EXAMPLES.map(({ label, name }) => (
+                <VerticalNavigationItem key={ name } label={ label } name={ name } />
+              ))
+            }
+          </VerticalNavigationSection>
+        </VerticalNavigation>
+      </LayoutItem>
+      <LayoutItem size="9" padding="around-small">
+        <LayoutExample className={ showOn(selected === 'layout') } />
+        <ButtonExample className={ showOn(selected === 'button') } />
+      </LayoutItem>
+    </Layout>
+  );
+});
 
 export default CatalogApp;
