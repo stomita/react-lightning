@@ -20,7 +20,7 @@
     "build:module": "BABEL_ENV=module babel src -d module",
     "build:example": "webpack --config example/webpack.config.js",
     "flow": "flow",
-    "deploy:example:pkg": "jsforce-deploy -c ${SF_USERNAME} -D example/package",
+    "deploy:example:pkg": "jsforce-deploy -u ${SF_USERNAME} -p ${SF_PASSWORD} -D example/package",
     "deploy:example": "npm-run-all build:example deploy:example:pkg"
   },
   "dependencies": {
