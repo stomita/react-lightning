@@ -27,8 +27,10 @@ function findInstance(
 
 function findHandlerFunc(inst: Instance, eventName: string) {
   let propName;
-  if (inst.type === 'lightning:input' && eventName === 'input') {
-    propName = 'onchange';
+  if (inst.type === 'lightning:input') {
+    if (eventName === 'input' || (inst.props.type === 'checkbox' && eventName === 'click')) {
+      propName = 'onchange';
+    }
   } else {
     propName = `on${eventName}`;
   }

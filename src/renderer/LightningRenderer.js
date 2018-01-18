@@ -118,19 +118,39 @@ async function syncComponentTree(inst: Instance) {
   // const missingCompDefs = instances.map(convertToComponentDefs);
 }
 
-function _reflectComponentTree(inst: Instance): AuraComponent {
+function _reflectComponentTree(inst: Instance): ?AuraComponent {
+  const cmp = inst.cmp;
+  if (!cmp) { return null; }
+  if (inst.type === 'TEXT') { return cmp; }
   const body = inst.children.map((cinst) => {
     return _reflectComponentTree(cinst);
-  });
-  const cmp = inst.cmp;
-  if (!cmp) { throw new Error('cannot be reached here'); }
-  cmp.set('v.body', body);
+  }).filter((cmp) => cmp);
+  try {
+    cmp.set('v.body', body);
+  } catch(e) {
+    console.error(e);
+    inst.cmp = null;
+    cmp.destroy();
+    return null;
+  }
   return cmp;
 }
 
 function reflectComponentTree(inst: Instance): void {
   const auraRun = inst.container.auraRun;
   auraRun(() => { _reflectComponentTree(inst) });
+}
+
+function isHtmlInstance(inst: Instance) {
+  return !/^(lightning|ui|force|forceChatter):|^TEXT$/.test(inst.type);
+}
+
+function toHtmlAttr(prop: string) {
+  return (
+    prop === 'className' ? 'class' :
+    prop === 'htmlFor' ? 'for' :
+    prop
+  );
 }
 
 function _updateComponentProps(
@@ -141,7 +161,14 @@ function _updateComponentProps(
   if (!cmp) { return; }
   for (const { prop, value } of updatePayload) {
     if (typeof value !== 'function') {
-      cmp.set(`v.${prop}`, value);
+      if (isHtmlInstance(inst)) {
+        const attr = toHtmlAttr(prop);
+        const attrs = cmp.get('v.HTMLAttributes');
+        attrs[attr] = value;
+        cmp.set(`v.HTMLAttributes`, attrs);
+      } else {
+        cmp.set(`v.${prop}`, value);
+      }
     }
   }
 }
@@ -154,13 +181,8 @@ function updateComponentProps(inst, updatePayload) {
 function convertToHtmlAttrs(props: Object) {
   return Object.keys(props).reduce((attrs, prop) => {
     const value = props[prop];
-    return (
-      prop === 'className' ?
-        Object.assign({}, attrs, { "class": value }) :
-      prop === 'htmlFor' ?
-        Object.assign({}, attrs, { "for": value }) :
-        Object.assign({}, attrs, { [prop]: value })
-    );
+    const attr = toHtmlAttr(prop);
+    return Object.assign({}, attrs, { [attr]: value });
   }, {});
 }
 
@@ -185,14 +207,17 @@ function convertToComponentDefs(inst: Instance): [string, Object] {
   if (inst.type === 'TEXT') {
     return [
       'aura:text',
-      { value: inst.props.value }
+      {
+        'aura:id': inst.id,
+        value: inst.props.value,
+      }
     ];
   }
   return [
     'aura:html',
     {
-      'aura:id': inst.id,
       tag: inst.type,
+      'aura:id': inst.id,
       HTMLAttributes: convertToHtmlAttrs(cmpProps),
     },
   ];
