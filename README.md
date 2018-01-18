@@ -71,3 +71,9 @@ export { init, handleEvent };
 	}
 })
 ```
+
+### Deploying example components to your org
+
+```
+$ SF_USERNAME=XXXX SF_PASSWORD=YYYY npm run deploy:example
+```
