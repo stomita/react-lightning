@@ -7,9 +7,11 @@ import {
 } from '../../../../src';
 import ButtonExample from './ButtonExample';
 import LayoutExample from './LayoutExample';
+import ChatterExample from './ChatterExample';
 
 const EXAMPLES = [
   { label: 'Button', name: 'button' },
+  { label: 'Chatter', name: 'chatter' },
   { label: 'Layout', name: 'layout' },
 ];
 
@@ -41,8 +43,9 @@ const CatalogApp = enhancer((props) => {
         </VerticalNavigation>
       </LayoutItem>
       <LayoutItem size="9" padding="around-small">
-        <LayoutExample className={ showOn(selected === 'layout') } />
         <ButtonExample className={ showOn(selected === 'button') } />
+        <ChatterExample className={ showOn(selected === 'chatter') } />
+        <LayoutExample className={ showOn(selected === 'layout') } />
       </LayoutItem>
     </Layout>
   );
