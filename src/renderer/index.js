@@ -1,5 +1,7 @@
 /* @flow */
+import EventEmitter from 'events';
 import Renderer from './LightningRenderer';
+import { compose, withStateHandlers, lifecycle, type HOC } from 'recompose';
 import type {
   Aura, AuraComponent, AuraEvent,
   Container, Instance,
@@ -81,4 +83,49 @@ export function render(
   const container = createContainer(component);
   const node = Renderer.createContainer(container);
   Renderer.updateContainer(element, node, null);
+}
+
+export function mapAttrToProps<
+  Enhanced,
+  Base,
+  Attrs: $Diff<Enhanced, Base>,
+  Attr: $Keys<Attrs>
+>(
+  component: AuraComponent,
+  attrNames: Attr[],
+): HOC<Base, Enhanced> {
+  function getAttrValues(): Attrs {
+    const attrs = attrNames.reduce((props, attrName) => (
+      { ...props, [attrName]: component.get(`v.${attrName}`) }
+    ), {});
+    return ((attrs: any): Attrs);
+  };
+  const initAttrValues = getAttrValues();
+  const attrEvent = new EventEmitter();
+  const update = () => {
+    const attrValues = getAttrValues();
+    attrEvent.emit('change', attrValues);
+  };
+  for (const attrName of attrNames) {
+    component.addValueHandler({
+      event: 'change',
+      value: `v.${attrName}`,
+      method: update,
+    });
+  }
+  return compose(
+    withStateHandlers(initAttrValues, {
+      onChangeAttributeValues: () => (attrValues) => attrValues,
+    }),
+    lifecycle({
+      componentDidMount() {
+        const { onChangeAttributeValues } = this.props;
+        attrEvent.on('change', onChangeAttributeValues);
+      },
+      componentWillUnmount() {
+        const { onChangeAttributeValues } = this.props;
+        attrEvent.removeListener('change', onChangeAttributeValues);
+      },
+    }),
+  );
 }

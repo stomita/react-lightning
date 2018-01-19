@@ -1,3 +1,3 @@
 /* @flow */
-export { render, handleEvent } from './renderer';
+export { render, handleEvent, mapAttrToProps } from './renderer';
 export * from './components';

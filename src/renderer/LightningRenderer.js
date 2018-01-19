@@ -19,6 +19,8 @@ export type AuraComponent = {
   getLocalId: () => string,
   find: (string) => ?AuraComponent,
   getReference: (string) => Function,
+  addEventHandler: (string, Function) => void,
+  addValueHandler: ({ event: string, value: string, method: Function }) => void,
   destroy: () => void,
 };
 
@@ -182,7 +184,7 @@ function convertToHtmlAttrs(props: Object) {
   return Object.keys(props).reduce((attrs, prop) => {
     const value = props[prop];
     const attr = toHtmlAttr(prop);
-    return Object.assign({}, attrs, { [attr]: value });
+    return { ...attrs, [attr]: value };
   }, {});
 }
 
@@ -196,12 +198,12 @@ function convertToComponentDefs(inst: Instance): [string, Object] {
     if (typeof value === 'function') {
       value = containerCmp.getReference('c.handleEvent');
     }
-    return Object.assign({}, props, { [prop]: value });
+    return { ...props, [prop]: value };
   }, {});
   if (/^[\w\-]+:/.test(inst.type)) {
     return [
       inst.type,
-      Object.assign({}, cmpProps, { 'aura:id': inst.id }),
+      { ...cmpProps, 'aura:id': inst.id },
     ];
   }
   if (inst.type === 'TEXT') {

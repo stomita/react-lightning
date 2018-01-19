@@ -26,11 +26,13 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "fbjs": "^0.8.16",
-    "react-reconciler": "^0.7.0"
+    "react-reconciler": "^0.7.0",
+    "recompose": "^0.26.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
@@ -42,7 +44,6 @@
     "react": "^16.2.0",
     "react-devtools": "^3.0.0",
     "react-redux": "^5.0.6",
-    "recompose": "^0.26.0",
     "redux": "^3.7.2",
     "webpack": "^3.10.0"
   },
