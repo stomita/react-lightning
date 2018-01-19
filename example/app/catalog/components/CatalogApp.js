@@ -20,17 +20,22 @@ const EXAMPLES = [
 const enhancer = compose(
   withStateHandlers({
     selected: 'button',
+    rendered: { button: true },
   }, {
-    onChangeSelected: ({ selected }) => (e) => ({
-      selected: e.getParam('name'),
-    }),
+    onChangeSelected: ({ selected, rendered }) => (e) => {
+      const selected = e.getParam('name');
+      return {
+        selected,
+        rendered: { ...rendered, [selected]: true },
+      };
+    },
   }),
 );
 
 const showOn = (bool: boolean) => bool ? 'slds-show' : 'slds-hide';
 
 const CatalogApp = enhancer((props) => {
-  const { selected, onChangeSelected } = props;
+  const { selected, rendered, onChangeSelected } = props;
   return (
     <Layout horizontalAlign="spread">
       <LayoutItem size="3" class="slds-p-right--x-small">
@@ -45,9 +50,21 @@ const CatalogApp = enhancer((props) => {
         </VerticalNavigation>
       </LayoutItem>
       <LayoutItem size="9" class="slds-p-left--x-small">
-        <ButtonExample className={ showOn(selected === 'button') } />
-        <ChatterExample className={ showOn(selected === 'chatter') } />
-        <LayoutExample className={ showOn(selected === 'layout') } />
+        {
+          rendered.button ?
+          <ButtonExample className={ showOn(selected === 'button') } /> :
+          undefined
+        }
+        {
+          rendered.chatter ?
+          <ChatterExample className={ showOn(selected === 'chatter') } /> :
+          undefined
+        }
+        {
+          rendered.layout ?
+          <LayoutExample className={ showOn(selected === 'layout') } /> :
+          undefined
+        }
         <CustomComponentExample className={ showOn(selected === 'customComponent') } />
       </LayoutItem>
     </Layout>
