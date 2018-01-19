@@ -33,7 +33,7 @@ const CatalogApp = enhancer((props) => {
   const { selected, onChangeSelected } = props;
   return (
     <Layout horizontalAlign="spread">
-      <LayoutItem size="3" padding="around-small">
+      <LayoutItem size="3" class="slds-p-right--x-small">
         <VerticalNavigation selectedItem={ selected } onselect={ onChangeSelected }>
           <VerticalNavigationSection label="Examples">
             {
@@ -44,7 +44,7 @@ const CatalogApp = enhancer((props) => {
           </VerticalNavigationSection>
         </VerticalNavigation>
       </LayoutItem>
-      <LayoutItem size="9" padding="around-small">
+      <LayoutItem size="9" class="slds-p-left--x-small">
         <ButtonExample className={ showOn(selected === 'button') } />
         <ChatterExample className={ showOn(selected === 'chatter') } />
         <LayoutExample className={ showOn(selected === 'layout') } />
