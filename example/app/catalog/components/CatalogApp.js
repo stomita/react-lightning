@@ -8,11 +8,13 @@ import {
 import ButtonExample from './ButtonExample';
 import LayoutExample from './LayoutExample';
 import ChatterExample from './ChatterExample';
+import CustomComponentExample from './CustomComponentExample';
 
 const EXAMPLES = [
   { label: 'Button', name: 'button' },
   { label: 'Chatter', name: 'chatter' },
   { label: 'Layout', name: 'layout' },
+  { label: 'Custom Component', name: 'customComponent' },
 ];
 
 const enhancer = compose(
@@ -46,6 +48,7 @@ const CatalogApp = enhancer((props) => {
         <ButtonExample className={ showOn(selected === 'button') } />
         <ChatterExample className={ showOn(selected === 'chatter') } />
         <LayoutExample className={ showOn(selected === 'layout') } />
+        <CustomComponentExample className={ showOn(selected === 'customComponent') } />
       </LayoutItem>
     </Layout>
   );

@@ -1,6 +1,7 @@
 <aura:component implements="flexipage:availableForAllPageTypes"
 	access="global"
 >
+	<aura:attribute name="incNum" type="Integer" default="1"/>
 	<ltng:require scripts="{!$Resource.ReactLightningRendererDemo}"
 		afterScriptsLoaded="{!c.doInit}"
 	/>
