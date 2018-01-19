@@ -142,7 +142,7 @@ function reflectComponentTree(inst: Instance): void {
 }
 
 function isHtmlInstance(inst: Instance) {
-  return !/^(lightning|ui|force|forceChatter):|^TEXT$/.test(inst.type);
+  return !/^[\w\-]+:|^TEXT$/.test(inst.type);
 }
 
 function toHtmlAttr(prop: string) {
@@ -198,7 +198,7 @@ function convertToComponentDefs(inst: Instance): [string, Object] {
     }
     return Object.assign({}, props, { [prop]: value });
   }, {});
-  if (/^(lightning|ui|force|forceChatter):/.test(inst.type)) {
+  if (/^[\w\-]+:/.test(inst.type)) {
     return [
       inst.type,
       Object.assign({}, cmpProps, { 'aura:id': inst.id }),
