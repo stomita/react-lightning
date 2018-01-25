@@ -127,13 +127,15 @@ function _reflectComponentTree(inst: Instance): ?AuraComponent {
   const body = inst.children.map((cinst) => {
     return _reflectComponentTree(cinst);
   }).filter((cmp) => cmp);
-  try {
-    cmp.set('v.body', body);
-  } catch(e) {
-    console.error(e);
-    inst.cmp = null;
-    cmp.destroy();
-    return null;
+  if (body.length > 0) {
+    try {
+      cmp.set('v.body', body);
+    } catch(e) {
+      console.error(e);
+      inst.cmp = null;
+      cmp.destroy();
+      return null;
+    }
   }
   return cmp;
 }
