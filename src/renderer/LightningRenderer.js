@@ -213,6 +213,10 @@ function toStyleAttrValue(styles: {[string]: any }): string {
   }).join(' ');
 }
 
+function toAuraAttr(prop: string) {
+  return prop === 'className' ? 'class' : prop;
+}
+
 function _updateComponentProps(
   inst: Instance,
   updatePayload: Array<{ prop: string, value: any }>
@@ -228,7 +232,8 @@ function _updateComponentProps(
         attrs[attr] = val;
         cmp.set(`v.HTMLAttributes`, attrs);
       } else {
-        cmp.set(`v.${prop}`, value);
+        const attr = toAuraAttr(prop);
+        cmp.set(`v.${attr}`, value);
       }
     }
   }
@@ -252,18 +257,19 @@ function convertToComponentDefs(inst: Instance): [string, Object] {
   const container = inst.container || inst;
   const containerCmp = container.cmp;
   if (!containerCmp) { throw new Error('no container cmp defined'); }
-  const cmpProps = Object.keys(inst.props).reduce((props, prop) => {
+  const cmpAttrs = Object.keys(inst.props).reduce((props, prop) => {
     if (prop === 'children') { return props; }
     let value = inst.props[prop];
     if (typeof value === 'function') {
       value = containerCmp.getReference('c.handleEvent');
     }
-    return { ...props, [prop]: value };
+    const attr = toAuraAttr(prop);
+    return { ...props, [attr]: value };
   }, {});
   if (/^[\w\-]+:/.test(inst.type)) {
     return [
       inst.type,
-      { ...cmpProps, 'aura:id': inst.id },
+      { ...cmpAttrs, 'aura:id': inst.id },
     ];
   }
   if (inst.type === 'TEXT') {
@@ -280,7 +286,7 @@ function convertToComponentDefs(inst: Instance): [string, Object] {
     {
       tag: inst.type,
       'aura:id': inst.id,
-      HTMLAttributes: convertToHtmlAttrs(cmpProps),
+      HTMLAttributes: convertToHtmlAttrs(cmpAttrs),
     },
   ];
 }
