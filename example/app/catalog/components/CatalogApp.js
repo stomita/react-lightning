@@ -7,6 +7,7 @@ import {
 } from '../../../../src';
 import ButtonExample from './ButtonExample';
 import LayoutExample from './LayoutExample';
+import RecordEditFormExample from './RecordEditFormExample';
 import ChatterExample from './ChatterExample';
 import CustomComponentExample from './CustomComponentExample';
 
@@ -14,6 +15,7 @@ const EXAMPLES = [
   { label: 'Button', name: 'button' },
   { label: 'Chatter', name: 'chatter' },
   { label: 'Layout', name: 'layout' },
+  { label: 'RecordEditForm', name: 'recordEditForm' },
   { label: 'Custom Component', name: 'customComponent' },
 ];
 
@@ -63,6 +65,11 @@ const CatalogApp = enhancer((props) => {
         {
           rendered.layout ?
           <LayoutExample className={ showOn(selected === 'layout') } /> :
+          undefined
+        }
+        {
+          rendered.recordEditForm ?
+          <RecordEditFormExample className={ showOn(selected === 'recordEditForm') } /> :
           undefined
         }
         <CustomComponentExample className={ showOn(selected === 'customComponent') } />
