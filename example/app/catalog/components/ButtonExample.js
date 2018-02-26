@@ -73,7 +73,7 @@ const ButtonExample = enhancer(props => {
       </div>
       <div className="slds-p-vertical--small">
         <h3>Buttons (inverse)</h3>
-        <div className="slds-p-around--xx-small" style="background-color: #224;">
+        <div className="slds-p-around--xx-small" style={ { backgroundColor: '#224' } }>
           <Button label="Inverse" variant="inverse" onclick={ () => showMessage('Inverse Clicked') }/>
           <ButtonIcon iconName="utility:settings" variant="bare-inverse" onclick={ () => showMessage('Icon Bare Inverse Clicked') }/>
           <ButtonIcon iconName="utility:settings" variant="border-inverse" onclick={ () => showMessage('Icon Border Inverse Clicked') }/>
@@ -103,7 +103,7 @@ const ButtonExample = enhancer(props => {
       <div className="slds-p-top--large">
         {
           messages.map((msg) => (
-            <p key={ msg.id } style={ msg.dismiss ? 'opacity: .1; transition: opacity 1s' : '' }>
+            <p key={ msg.id } style={ msg.dismiss ? { opacity: .1, transition: 'opacity 1s' } : {} }>
               { msg.message }
             </p>
           ))

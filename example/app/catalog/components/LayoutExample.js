@@ -61,13 +61,13 @@ const LayoutExample = enhancer(props => {
         multipleRows={ multipleRows }
       >
         <LayoutItem flexibility="auto" padding="around-small">
-          <div style="width:150px; height: 100%; border: 1px dotted #999;">
+          <div style={ { width: 150, height: '100%', border: '1px dotted #999' } }>
             Lorem ipsum dolor sit amet, habeo fabellas cum an, habeo graeco tamquam usu no, pro omnes electram id.
             Eos cu quidam delicata, eum ne summo offendit. Ut est eius perpetua, pri cu dictas oblique.
           </div>
         </LayoutItem>
         <LayoutItem flexibility="auto" padding="around-small">
-          <div style="width:200px; height: 100%; border: 1px dotted #999;">
+          <div style={ { width: 200, height: '100%', border: '1px dotted #999' } }>
             <p>
               Meliore adolescens definitiones an mei, at postea assentior duo. Quo ex simul laboramus instructior, eros illum per at,
               soluta dolorem incorrupte ad mea.
@@ -79,7 +79,7 @@ const LayoutExample = enhancer(props => {
           </div>
         </LayoutItem>
         <LayoutItem flexibility="auto" padding="around-small">
-          <div style="width:100px; height: 100%; border: 1px dotted #999;">
+          <div style={ { width: 100, height: '100%', border: '1px dotted #999' } }>
             Est ei solet meliore, sit scripta incorrupte cu. Id errem exerci praesent sed, nam ad odio iisque.
             At dicit mucius duo, mucius menandri sadipscing ad ius.
           </div>

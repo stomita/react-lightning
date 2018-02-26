@@ -2,6 +2,7 @@
 import uuid from 'uuid';
 import Reconciler from 'react-reconciler';
 import emptyObject from 'fbjs/lib/emptyObject';
+import hyphenateStyleName from 'fbjs/lib/hyphenateStyleName';
 
 /**
  *
@@ -157,6 +158,61 @@ function toHtmlAttr(prop: string) {
   );
 }
 
+const UNITLESS_NUMBER = {
+  animationIterationCount: true,
+  borderImageOutset: true,
+  borderImageSlice: true,
+  borderImageWidth: true,
+  boxFlex: true,
+  boxFlexGroup: true,
+  boxOrdinalGroup: true,
+  columnCount: true,
+  columns: true,
+  flex: true,
+  flexGrow: true,
+  flexPositive: true,
+  flexShrink: true,
+  flexNegative: true,
+  flexOrder: true,
+  gridRow: true,
+  gridRowEnd: true,
+  gridRowSpan: true,
+  gridRowStart: true,
+  gridColumn: true,
+  gridColumnEnd: true,
+  gridColumnSpan: true,
+  gridColumnStart: true,
+  fontWeight: true,
+  lineClamp: true,
+  lineHeight: true,
+  opacity: true,
+  order: true,
+  orphans: true,
+  tabSize: true,
+  widows: true,
+  zIndex: true,
+  zoom: true,
+  // SVG-related properties
+  fillOpacity: true,
+  floodOpacity: true,
+  stopOpacity: true,
+  strokeDasharray: true,
+  strokeDashoffset: true,
+  strokeMiterlimit: true,
+  strokeOpacity: true,
+  strokeWidth: true,
+};
+
+function toStyleAttrValue(styles: {[string]: any }): string {
+  return Object.keys(styles).map((name: string) => {
+    const val = styles[name];
+    const unit =
+      (typeof val === 'number' && val !== 0 && !UNITLESS_NUMBER[name]) ? 'px' : '';
+    const styleName = name === 'cssFloat' ? 'float' : hyphenateStyleName(name);
+    return `${styleName}:${val}${unit};`;
+  }).join(' ');
+}
+
 function _updateComponentProps(
   inst: Instance,
   updatePayload: Array<{ prop: string, value: any }>
@@ -168,7 +224,8 @@ function _updateComponentProps(
       if (isHtmlInstance(inst)) {
         const attr = toHtmlAttr(prop);
         const attrs = cmp.get('v.HTMLAttributes');
-        attrs[attr] = value;
+        const val = attr === 'style' ? toStyleAttrValue(value) : value;
+        attrs[attr] = val;
         cmp.set(`v.HTMLAttributes`, attrs);
       } else {
         cmp.set(`v.${prop}`, value);
@@ -186,7 +243,8 @@ function convertToHtmlAttrs(props: Object) {
   return Object.keys(props).reduce((attrs, prop) => {
     const value = props[prop];
     const attr = toHtmlAttr(prop);
-    return { ...attrs, [attr]: value };
+    const val = attr === 'style' ? toStyleAttrValue(value) : value;
+    return { ...attrs, [attr]: val };
   }, {});
 }
 
