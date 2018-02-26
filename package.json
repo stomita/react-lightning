@@ -1,6 +1,6 @@
 {
   "name": "react-lightning-renderer",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "module": "module/index.js",
   "author": "Shinichi Tomita <shinichi.tomita@gmail.com>",
