@@ -1,6 +1,7 @@
-# react-lightning
+# ![React Lightning](./docs/imgs/react-lightning-logo.png)
 
-A React custom renderer implementation targeted to Salesforce Lightning Component development
+**React Lightning** is a React custom renderer implementation targeted to Salesforce Lightning Component development.
+You can develop your own lightning component using accustomed React-style notation (e.g. JSX, ES6 classes, or SFC), embedding lightning built-in components or custom components as its content.
 
 ## Install
 
