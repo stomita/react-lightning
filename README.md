@@ -1,11 +1,11 @@
-# react-lightning-renderer
+# react-lightning
 
 A React custom renderer implementation targeted to Salesforce Lightning Component development
 
 ## Install
 
 ```
-$ npm install react-lightning-renderer
+$ npm install react-lightning
 ```
 
 ## Example
@@ -14,7 +14,7 @@ $ npm install react-lightning-renderer
 
 ```javascript
 import React from 'react';
-import { Button, render, handleEvent } from 'react-lightning-renderer';
+import { Button, render, handleEvent } from 'react-lightning';
 
 class CounterApp extends React.Component {
   constructor() {
@@ -74,12 +74,12 @@ export { init, handleEvent };
 
 ### Deploying example components to your org
 
-This repository includes example lightning components implemented with react-lightning-renderer.
+This repository includes example lightning components implemented with react-lightning.
 To deploy the example components to your development org, do the following:
 
 ```
-$ git clone https://github.com/stomita/react-lightning-renderer.git
-$ cd react-lightning-renderer
+$ git clone https://github.com/stomita/react-lightning.git
+$ cd react-lightning
 $ npm install
 $ SF_USERNAME=XXXX SF_PASSWORD=YYYY npm run deploy:example
 ```
