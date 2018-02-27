@@ -23,6 +23,16 @@
     "deploy:example:pkg": "jsforce-deploy -u ${SF_USERNAME} -p ${SF_PASSWORD} -D example/package",
     "deploy:example": "npm-run-all build:example deploy:example:pkg"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stomita/react-lightning.git"
+  },
+  "keywords": [
+    "react",
+    "lightning",
+    "salesforce",
+    "reconciler"
+  ],
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "fbjs": "^0.8.16",
