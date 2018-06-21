@@ -3,7 +3,7 @@
     ["transform-runtime", {
       "helpers": false,
       "polyfill": false,
-      "regenerator": true,
+      "regenerator": false,
       "moduleName": "babel-runtime"
     }],
     "transform-object-rest-spread"
@@ -12,7 +12,13 @@
     "development": {
       "presets": [
         ["env", {
-          "targets": { "ie": 11 },
+          "targets": {
+            "browsers": [
+              "last 2 Chrome versions",
+              "last 2 Firefox versions",
+              "last 2 Safari versions"
+            ]
+          },
           "useBuiltIns": "usage"
         }],
         "flow",
@@ -22,6 +28,13 @@
     "module": {
       "presets": [
         ["env", {
+          "targets": {
+            "browsers": [
+              "last 2 Chrome versions",
+              "last 2 Firefox versions",
+              "last 2 Safari versions"
+            ]
+          },
           "useBuiltIns": "usage",
           "modules": false
         }],
