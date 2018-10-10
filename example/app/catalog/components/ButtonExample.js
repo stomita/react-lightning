@@ -66,17 +66,17 @@ const ButtonExample = enhancer(props => {
       </div>
       <div className="slds-p-vertical--small">
         <h3>Button Icons</h3>
-        <ButtonIcon iconName="utility:settings" variant="bare" onclick={ () => showMessage('Icon Bare Clicked') }/>
-        <ButtonIcon iconName="utility:settings" variant="container" onclick={ () => showMessage('Icon Container Clicked') }/>
-        <ButtonIcon iconName="utility:settings" variant="border" onclick={ () => showMessage('Icon Border Clicked') }/>
-        <ButtonIcon iconName="utility:settings" variant="border-filled" onclick={ () => showMessage('Icon Border-Filled Clicked') }/>
+        <ButtonIcon iconName="utility:settings" alternativeText="settings" variant="bare" onclick={ () => showMessage('Icon Bare Clicked') }/>
+        <ButtonIcon iconName="utility:settings" alternativeText="settings" variant="container" onclick={ () => showMessage('Icon Container Clicked') }/>
+        <ButtonIcon iconName="utility:settings" alternativeText="settings" variant="border" onclick={ () => showMessage('Icon Border Clicked') }/>
+        <ButtonIcon iconName="utility:settings" alternativeText="settings" variant="border-filled" onclick={ () => showMessage('Icon Border-Filled Clicked') }/>
       </div>
       <div className="slds-p-vertical--small">
         <h3>Buttons (inverse)</h3>
         <div className="slds-p-around--xx-small" style={ { backgroundColor: '#224' } }>
           <Button label="Inverse" variant="inverse" onclick={ () => showMessage('Inverse Clicked') }/>
-          <ButtonIcon iconName="utility:settings" variant="bare-inverse" onclick={ () => showMessage('Icon Bare Inverse Clicked') }/>
-          <ButtonIcon iconName="utility:settings" variant="border-inverse" onclick={ () => showMessage('Icon Border Inverse Clicked') }/>
+          <ButtonIcon iconName="utility:settings" alternativeText="settings" variant="bare-inverse" onclick={ () => showMessage('Icon Bare Inverse Clicked') }/>
+          <ButtonIcon iconName="utility:settings" alternativeText="settings" variant="border-inverse" onclick={ () => showMessage('Icon Border Inverse Clicked') }/>
         </div>
       </div>
       <div className="slds-p-vertical--small">
