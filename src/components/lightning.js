@@ -49,6 +49,7 @@ export const InputRichText = 'lightning:inputRichText';
 export const Layout = 'lightning:layout';
 export const LayoutItem = 'lightning:layoutItem';
 export const ListView = 'lightning:listView';
+export const Map = 'lightning:map';
 export const MenuItem = 'lightning:menuItem';
 export const OmniToolkitAPI = 'lightning:omniToolkitAPI';
 export const OutputField = 'lightning:outputField';

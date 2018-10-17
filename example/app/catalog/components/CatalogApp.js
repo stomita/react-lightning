@@ -9,6 +9,7 @@ import ButtonExample from './ButtonExample';
 import LayoutExample from './LayoutExample';
 import RecordEditFormExample from './RecordEditFormExample';
 import ChatterExample from './ChatterExample';
+import MapExample from './MapExample';
 import CustomComponentExample from './CustomComponentExample';
 
 const EXAMPLES = [
@@ -16,6 +17,7 @@ const EXAMPLES = [
   { label: 'Chatter', name: 'chatter' },
   { label: 'Layout', name: 'layout' },
   { label: 'RecordEditForm', name: 'recordEditForm' },
+  { label: 'Map', name: 'map' },
   { label: 'Custom Component', name: 'customComponent' },
 ];
 
@@ -70,6 +72,11 @@ const CatalogApp = enhancer((props) => {
         {
           rendered.recordEditForm ?
           <RecordEditFormExample className={ showOn(selected === 'recordEditForm') } /> :
+          undefined
+        }
+        {
+          rendered.map ?
+          <MapExample className={ showOn(selected === 'map') } /> :
           undefined
         }
         <CustomComponentExample className={ showOn(selected === 'customComponent') } />
